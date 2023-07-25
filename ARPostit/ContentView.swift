@@ -14,6 +14,7 @@ struct ContentView : View {
     }
 }
 
+/*
 struct ARViewContainer: UIViewRepresentable {
     
     func makeUIView(context: Context) -> ARView {
@@ -41,3 +42,4 @@ struct ContentView_Previews : PreviewProvider {
     }
 }
 #endif
+*/

@@ -15,6 +15,9 @@
 		A01A700B2A4F3A04009CC9DE /* ARPostitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01A700A2A4F3A04009CC9DE /* ARPostitTests.swift */; };
 		A01A70152A4F3A04009CC9DE /* ARPostitUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01A70142A4F3A04009CC9DE /* ARPostitUITests.swift */; };
 		A01A70172A4F3A04009CC9DE /* ARPostitUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01A70162A4F3A04009CC9DE /* ARPostitUITestsLaunchTests.swift */; };
+		A0BB59702A70107200D04415 /* TextNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BB596F2A70107200D04415 /* TextNoteView.swift */; };
+		A0BB59722A70111000D04415 /* ARViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BB59712A70111000D04415 /* ARViewContainer.swift */; };
+		A0BB59742A70116E00D04415 /* NoteStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BB59732A70116E00D04415 /* NoteStorage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +49,9 @@
 		A01A70102A4F3A04009CC9DE /* ARPostitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ARPostitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A01A70142A4F3A04009CC9DE /* ARPostitUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARPostitUITests.swift; sourceTree = "<group>"; };
 		A01A70162A4F3A04009CC9DE /* ARPostitUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARPostitUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		A0BB596F2A70107200D04415 /* TextNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextNoteView.swift; sourceTree = "<group>"; };
+		A0BB59712A70111000D04415 /* ARViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewContainer.swift; sourceTree = "<group>"; };
+		A0BB59732A70116E00D04415 /* NoteStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +104,9 @@
 			children = (
 				A01A6FF72A4F3A03009CC9DE /* AppDelegate.swift */,
 				A01A6FF92A4F3A03009CC9DE /* ContentView.swift */,
+				A0BB59712A70111000D04415 /* ARViewContainer.swift */,
+				A0BB596F2A70107200D04415 /* TextNoteView.swift */,
+				A0BB59732A70116E00D04415 /* NoteStorage.swift */,
 				A01A6FFB2A4F3A03009CC9DE /* Experience.rcproject */,
 				A01A6FFD2A4F3A04009CC9DE /* Assets.xcassets */,
 				A01A6FFF2A4F3A04009CC9DE /* Preview Content */,
@@ -194,7 +203,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					A01A6FF32A4F3A03009CC9DE = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -263,6 +272,9 @@
 				A01A6FFA2A4F3A03009CC9DE /* ContentView.swift in Sources */,
 				A01A6FF82A4F3A03009CC9DE /* AppDelegate.swift in Sources */,
 				A01A6FFC2A4F3A03009CC9DE /* Experience.rcproject in Sources */,
+				A0BB59702A70107200D04415 /* TextNoteView.swift in Sources */,
+				A0BB59722A70111000D04415 /* ARViewContainer.swift in Sources */,
+				A0BB59742A70116E00D04415 /* NoteStorage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,6 +315,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -335,6 +348,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -363,6 +377,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -395,6 +410,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

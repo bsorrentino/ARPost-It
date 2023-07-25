@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "0B7ED240-8136-4B51-93F3-FCE3ADDDF1E2"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "63D8625D-65AB-490D-8CB3-0FB3FF3573F4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ARPostit/ARViewContainer.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
+            landmarkName = "addNoteToWall(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "63D8625D-65AB-490D-8CB3-0FB3FF3573F4 - b722a267cbd224b7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ARPostit.ARViewContainerRepresentable.Coordinator.addNoteToWall(__C.UITapGestureRecognizer) -&gt; ()"
+                  moduleName = "ARPostit"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bsorrentino/WORKSPACES/INCUBATOR/AppleOS/ARPostit/ARPostit/ARViewContainer.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "94"
+                  endingLineNumber = "94"
+                  offsetFromSymbolStart = "268">
+               </Location>
+               <Location
+                  uuid = "63D8625D-65AB-490D-8CB3-0FB3FF3573F4 - b722a267cbd224b7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ARPostit.ARViewContainerRepresentable.Coordinator.addNoteToWall(__C.UITapGestureRecognizer) -&gt; ()"
+                  moduleName = "ARPostit"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bsorrentino/WORKSPACES/INCUBATOR/AppleOS/ARPostit/ARPostit/ARViewContainer.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "94"
+                  endingLineNumber = "94"
+                  offsetFromSymbolStart = "116">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2AD7E87C-B82A-4165-9D4B-AB9C10A7DCCA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ARPostit/ARViewContainer.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
+            landmarkName = "addNoteToWall(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
