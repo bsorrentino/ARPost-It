@@ -47,13 +47,16 @@ struct ARViewContainerRepresentable: UIViewRepresentable {
     @Binding var notes: [String: [CGPoint]]
 
 //    let arView = ARView(frame: .zero)
-    let arView = ARView()
+//    let arView = ARView()
     
-    
+    // [Using Vision and RealityKit Rotates Counterclockwise and Distorts(Stretches?) Video](https://stackoverflow.com/a/72252900/521197)
+    let arView = ARView(frame: .init(x: 1, y: 1, width: 1, height: 1),
+                        cameraMode: .ar,
+                        automaticallyConfigureSession: false)
+
     
     func makeUIView(context: Context) -> ARView {
         // [RealityKit tutorial: Plane Detection and Raycasting](https://www.youtube.com/watch?v=T1u1tyMlMLM&t=101s)
-        arView.automaticallyConfigureSession = true
         arView.debugOptions = [ .showSceneUnderstanding, .showFeaturePoints ]
         
         let configuration = ARWorldTrackingConfiguration()
@@ -101,7 +104,7 @@ struct ARViewContainerRepresentable: UIViewRepresentable {
 //    }
     class Coordinator: NSObject, ARSessionDelegate {
         var parent: ARViewContainerRepresentable
-        var grids = [Grid]()
+        var grids = [GridEntity]()
         
         init(_ parent: ARViewContainerRepresentable) {
             self.parent = parent
@@ -114,7 +117,8 @@ struct ARViewContainerRepresentable: UIViewRepresentable {
             for anchor in anchors {
                 if let planeAnchor = anchor as? ARPlaneAnchor, planeAnchor.alignment == .vertical {
                     // Add a new Grid entity to your scene for the detected vertical plane
-                    let grid = Grid(planeAnchor: planeAnchor)
+                    let grid = GridEntity(planeAnchor: planeAnchor)
+                    
                     parent.arView.scene.addAnchor(grid)
                     grids.append(grid)
                 }
@@ -124,31 +128,33 @@ struct ARViewContainerRepresentable: UIViewRepresentable {
         // [RealityKit – Visualizing Grid on detected planes](https://stackoverflow.com/a/71351712/521197)
         func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
                 
-                guard let planeAnchor = anchors[0] as? ARPlaneAnchor else { return }
+            guard let planeAnchor = anchors[0] as? ARPlaneAnchor else { return }
             
             if let updatedGrid = grids.first( where: { $0.planeAnchor.identifier == planeAnchor.identifier } ) {
                 updatedGrid.didUpdate(anchor: planeAnchor)
             }
-//                let grid: Grid? = grids.filter { grd in
-//                    grd.planeAnchor.identifier == planeAnchor.identifier }[0]
-//                guard let updatedGrid: Grid = grid else { return }
-            
-            }
+        }
+
         //
         // FROM PHIND:
         //
         @objc func handleTap_and_raycast(_ sender: UITapGestureRecognizer) {
             let location = sender.location(in: parent.arView)
             
-            let results = parent.arView.raycast(from: location,
+            guard let raycastQuery = parent.arView.makeRaycastQuery(from: location,
                                                      allowing: .estimatedPlane,
-                                                     alignment: .vertical)
-
-            if results.isEmpty {
+                                                     alignment: .vertical) else {
                 print("no plane detect at \(location)!")
+                return
+            }
+             
+            let result = parent.arView.session.raycast(raycastQuery)
+            
+            if let result = result.first {
+                addNoteEntityToWall( worldTransform: result.worldTransform)
             }
             else {
-                addNoteToWall( worldTransform: results.first!.worldTransform)
+                print("no plane detect at \(location)!")
             }
 
         }
@@ -163,11 +169,29 @@ struct ARViewContainerRepresentable: UIViewRepresentable {
                 print("no plane detect at \(location)!")
             }
             else {
-                addNoteToWall( worldTransform: results.first!.worldTransform)
+                addNoteEntityToWall( worldTransform: results.first!.worldTransform)
             }
         }
         
-        func addNoteToWall( worldTransform: simd_float4x4 ) {
+        func addNoteEntityToWall( worldTransform: simd_float4x4 ) {
+            
+//            let position = SIMD3<Float>(worldTransform.columns.3.x,
+//                                     worldTransform.columns.3.y,
+//                                     worldTransform.columns.3.z)
+            let position = SIMD3<Float>(x: 0.0, y: 0.0, z: -0.5)
+
+            let anchor = AnchorEntity(world: worldTransform )
+            parent.arView.scene.addAnchor(anchor)
+            
+            let note = makeNoteEntity(text: "New Note" )
+            
+            anchor.addChild(note)
+            
+            note.transform.translation = position
+            
+        }
+
+        func addNoteViewToWall( worldTransform: simd_float4x4 ) {
             
             let position = SCNVector3(worldTransform.columns.3.x,
                                      worldTransform.columns.3.y,
@@ -177,11 +201,13 @@ struct ARViewContainerRepresentable: UIViewRepresentable {
             parent.arView.session.add(anchor: anchor)
             
             let noteText = "New Note"
+            let point = CGPoint(x: CGFloat(position.x), y: CGFloat(position.y))
+            
             if var existingNotes = parent.notes[noteText] {
-                existingNotes.append(CGPoint(x: CGFloat(position.x), y: CGFloat(position.y)))
+                existingNotes.append(point)
                 parent.notes[noteText] = existingNotes
             } else {
-                parent.notes[noteText] = [CGPoint(x: CGFloat(position.x), y: CGFloat(position.y))]
+                parent.notes[noteText] = [point]
             }
 
         }

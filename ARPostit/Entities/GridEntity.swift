@@ -1,5 +1,5 @@
 //
-//  Grid.swift
+//  GridEntity.swift
 //  ARPostit
 //
 //  Created by Bartolomeo Sorrentino on 27/07/23.
@@ -18,7 +18,6 @@ class GridEntity: Entity, HasModel, HasAnchoring {
     }
     
     fileprivate func didSetup() {
-        
         
         do {
             let texture  = MaterialParameters.Texture( try .load(named: "grid") )
