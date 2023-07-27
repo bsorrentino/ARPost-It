@@ -93,7 +93,6 @@ extension NoteEntity {
             let cameraToWorldPointDirection = normalize(note.transform.translation - arView.cameraTransform.translation)
             let dotProduct = dot(cameraForward, cameraToWorldPointDirection)
             let isVisible = dotProduct < 0
-
             
             // Updates the screen position of the note based on its visibility
             note.projectedPoint = projectedPoint
@@ -103,7 +102,7 @@ extension NoteEntity {
         }
     }
     
-    class func addNew( at location: CGPoint, worldTransform: simd_float4x4, text: String ) -> NoteEntity {
+    static func addNew( at location: CGPoint, worldTransform: simd_float4x4, text: String ) -> NoteEntity {
         
         let frame = CGRect(origin: location, size: CGSize(width: 200, height: 200))
         

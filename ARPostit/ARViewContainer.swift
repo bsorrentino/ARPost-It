@@ -8,6 +8,7 @@
 import SwiftUI
 import ARKit
 import RealityKit
+import Combine
 
 extension CGPoint: Hashable {
     public func hash(into hasher: inout Hasher) {
@@ -104,41 +105,18 @@ struct ARViewContainerRepresentable: UIViewRepresentable {
 //        }
 //
 //    }
-    class Coordinator: NSObject, ARSessionDelegate {
+    class Coordinator: NSObject {
         var parent: ARViewContainerRepresentable
         var grids = [GridEntity]()
+        private var subscription: Cancellable!
         
         init(_ parent: ARViewContainerRepresentable) {
             self.parent = parent
             super.init()
             self.parent.arView.session.delegate = self
-        }
-     
-        // FROM BING: prompt[Can you show me how to detect vertical planes?]
-        func session(_ session: ARSession, didAdd anchors: [ARAnchor]) {
             
-            // GRID
-            for anchor in anchors {
-                if let planeAnchor = anchor as? ARPlaneAnchor, planeAnchor.alignment == .vertical {
-                    // Add a new Grid entity to your scene for the detected vertical plane
-                    let grid = GridEntity(planeAnchor: planeAnchor)
-                    
-                    parent.arView.scene.addAnchor(grid)
-                    grids.append(grid)
-                }
-            }
-            
-        }
-        
-        // [RealityKit – Visualizing Grid on detected planes](https://stackoverflow.com/a/71351712/521197)
-        func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
-            
-            NoteEntity.updateScene(arView: parent.arView)
-
-            guard let planeAnchor = anchors[0] as? ARPlaneAnchor else { return }
-            
-            if let updatedGrid = grids.first( where: { $0.planeAnchor.identifier == planeAnchor.identifier } ) {
-                updatedGrid.didUpdate(anchor: planeAnchor)
+            subscription = self.parent.arView.scene.subscribe(to: SceneEvents.Update.self) { _ in   
+                NoteEntity.updateScene(arView: parent.arView)
             }
             
         }
@@ -167,19 +145,19 @@ struct ARViewContainerRepresentable: UIViewRepresentable {
 
         }
 
-        @objc func handleTap_and_hitTest(_ sender: UITapGestureRecognizer) {
-            
-            let location = sender.location(in: parent.arView)
-            
-            let results = parent.arView.hitTest(location, types: .existingPlane)
-            
-            if results.isEmpty {
-                print("no plane detect at \(location)!")
-            }
-            else {
-                addNoteEntityToWall( at: location, worldTransform: results.first!.worldTransform)
-            }
-        }
+//        @objc func handleTap_and_hitTest(_ sender: UITapGestureRecognizer) {
+//            
+//            let location = sender.location(in: parent.arView)
+//            
+//            let results = parent.arView.hitTest(location, types: .existingPlane)
+//            
+//            if results.isEmpty {
+//                print("no plane detect at \(location)!")
+//            }
+//            else {
+//                addNoteEntityToWall( at: location, worldTransform: results.first!.worldTransform)
+//            }
+//        }
         
         func addNoteEntityToWall( at location: CGPoint, worldTransform: simd_float4x4 ) {
             
@@ -216,11 +194,41 @@ struct ARViewContainerRepresentable: UIViewRepresentable {
     }
 }
 
-    //extension ARViewContainerRepresentable {
-    //    var arView: ARView {
-    //        (UIApplication.shared.windows.first?.rootViewController as! UIHostingController<ARViewContainer>).arView
-    //    }
-    //}
+extension ARViewContainerRepresentable.Coordinator : ARSessionDelegate {
+    
+    // FROM BING: prompt[Can you show me how to detect vertical planes?]
+    func session(_ session: ARSession, didAdd anchors: [ARAnchor]) {
+        
+        // GRID
+        for anchor in anchors {
+            if let planeAnchor = anchor as? ARPlaneAnchor, planeAnchor.alignment == .vertical {
+                // Add a new Grid entity to your scene for the detected vertical plane
+                let grid = GridEntity(planeAnchor: planeAnchor)
+                
+                parent.arView.scene.addAnchor(grid)
+                grids.append(grid)
+            }
+        }
+        
+    }
+    
+    // [RealityKit – Visualizing Grid on detected planes](https://stackoverflow.com/a/71351712/521197)
+    func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
+        
+        if let planeAnchor = anchors[0] as? ARPlaneAnchor,
+           let updatedGrid = grids.first( where: { $0.planeAnchor.identifier == planeAnchor.identifier } ) {
+            updatedGrid.didUpdate(anchor: planeAnchor)
+        }
+
+    }
+
+}
+
+//extension ARViewContainerRepresentable {
+//    var arView: ARView {
+//        (UIApplication.shared.windows.first?.rootViewController as! UIHostingController<ARViewContainer>).arView
+//    }
+//}
 
 #Preview {
     ARViewContainer()
