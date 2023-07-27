@@ -15,6 +15,7 @@
 		A01A700B2A4F3A04009CC9DE /* ARPostitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01A700A2A4F3A04009CC9DE /* ARPostitTests.swift */; };
 		A01A70152A4F3A04009CC9DE /* ARPostitUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01A70142A4F3A04009CC9DE /* ARPostitUITests.swift */; };
 		A01A70172A4F3A04009CC9DE /* ARPostitUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01A70162A4F3A04009CC9DE /* ARPostitUITestsLaunchTests.swift */; };
+		A09E7E5D2A725F62000C01ED /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09E7E5C2A725F62000C01ED /* Grid.swift */; };
 		A0BB59702A70107200D04415 /* TextNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BB596F2A70107200D04415 /* TextNoteView.swift */; };
 		A0BB59722A70111000D04415 /* ARViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BB59712A70111000D04415 /* ARViewContainer.swift */; };
 		A0BB59742A70116E00D04415 /* NoteStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BB59732A70116E00D04415 /* NoteStorage.swift */; };
@@ -49,6 +50,7 @@
 		A01A70102A4F3A04009CC9DE /* ARPostitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ARPostitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A01A70142A4F3A04009CC9DE /* ARPostitUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARPostitUITests.swift; sourceTree = "<group>"; };
 		A01A70162A4F3A04009CC9DE /* ARPostitUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARPostitUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		A09E7E5C2A725F62000C01ED /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		A0BB596F2A70107200D04415 /* TextNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextNoteView.swift; sourceTree = "<group>"; };
 		A0BB59712A70111000D04415 /* ARViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewContainer.swift; sourceTree = "<group>"; };
 		A0BB59732A70116E00D04415 /* NoteStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteStorage.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				A0BB59712A70111000D04415 /* ARViewContainer.swift */,
 				A0BB596F2A70107200D04415 /* TextNoteView.swift */,
 				A0BB59732A70116E00D04415 /* NoteStorage.swift */,
+				A09E7E5C2A725F62000C01ED /* Grid.swift */,
 				A01A6FFB2A4F3A03009CC9DE /* Experience.rcproject */,
 				A01A6FFD2A4F3A04009CC9DE /* Assets.xcassets */,
 				A01A6FFF2A4F3A04009CC9DE /* Preview Content */,
@@ -274,6 +277,7 @@
 				A01A6FFC2A4F3A03009CC9DE /* Experience.rcproject in Sources */,
 				A0BB59702A70107200D04415 /* TextNoteView.swift in Sources */,
 				A0BB59722A70111000D04415 /* ARViewContainer.swift in Sources */,
+				A09E7E5D2A725F62000C01ED /* Grid.swift in Sources */,
 				A0BB59742A70116E00D04415 /* NoteStorage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
