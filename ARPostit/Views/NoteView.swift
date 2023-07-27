@@ -1,5 +1,5 @@
 //
-//  TextNoteView.swift
+//  NoteView.swift
 //  ARPostit
 //
 //  Created by Bartolomeo Sorrentino on 25/07/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TextNoteView: View {
+struct NoteView: View {
     let text: String
     
     var body: some View {
@@ -23,5 +23,5 @@ struct TextNoteView: View {
 }
 
 #Preview {
-    TextNoteView(text: "my note")
+    NoteView(text: "my note")
 }

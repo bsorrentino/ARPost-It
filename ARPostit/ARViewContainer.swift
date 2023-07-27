@@ -18,33 +18,35 @@ extension CGPoint: Hashable {
 
 struct ARViewContainer: View {
     @StateObject private var notesStorage = NotesStorage()
-    @State private var notes: [String: [CGPoint]] = [:]
+//    @State private var notes: [String: [CGPoint]] = [:]
     
     var body: some View {
-        ARViewContainerRepresentable(notes: $notes)
+        ARViewContainerRepresentable()
             .environmentObject(notesStorage)
-            .onAppear {
-                notes = notesStorage.savedNotes
-            }
-            .overlay(
-                ZStack {
-                    ForEach(notes.keys.sorted(), id: \.self) { key in
-                        Group {
-                            if let positions = notes[key] {
-                                ForEach(positions, id: \.self) { position in
-                                    TextNoteView(text: key)
-                                        .position(position)
-                                }
-                            }
-                        }
-                    }
-                }
-            )
+//        ARViewContainerRepresentable(notes: $notes)
+//            .environmentObject(notesStorage)
+//            .onAppear {
+//                notes = notesStorage.savedNotes
+//            }
+//            .overlay(
+//                ZStack {
+//                    ForEach(notes.keys.sorted(), id: \.self) { key in
+//                        Group {
+//                            if let positions = notes[key] {
+//                                ForEach(positions, id: \.self) { position in
+//                                    NoteView(text: key)
+//                                        .position(position)
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            )
     }
 }
 
 struct ARViewContainerRepresentable: UIViewRepresentable {
-    @Binding var notes: [String: [CGPoint]]
+//    @Binding var notes: [String: [CGPoint]]
 
 //    let arView = ARView(frame: .zero)
 //    let arView = ARView()
@@ -114,6 +116,8 @@ struct ARViewContainerRepresentable: UIViewRepresentable {
      
         // FROM BING: prompt[Can you show me how to detect vertical planes?]
         func session(_ session: ARSession, didAdd anchors: [ARAnchor]) {
+            
+            // GRID
             for anchor in anchors {
                 if let planeAnchor = anchor as? ARPlaneAnchor, planeAnchor.alignment == .vertical {
                     // Add a new Grid entity to your scene for the detected vertical plane
@@ -123,16 +127,20 @@ struct ARViewContainerRepresentable: UIViewRepresentable {
                     grids.append(grid)
                 }
             }
+            
         }
         
         // [RealityKit – Visualizing Grid on detected planes](https://stackoverflow.com/a/71351712/521197)
         func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
-                
+            
+            NoteEntity.updateScene(arView: parent.arView)
+
             guard let planeAnchor = anchors[0] as? ARPlaneAnchor else { return }
             
             if let updatedGrid = grids.first( where: { $0.planeAnchor.identifier == planeAnchor.identifier } ) {
                 updatedGrid.didUpdate(anchor: planeAnchor)
             }
+            
         }
 
         //
@@ -151,7 +159,7 @@ struct ARViewContainerRepresentable: UIViewRepresentable {
             let result = parent.arView.session.raycast(raycastQuery)
             
             if let result = result.first {
-                addNoteEntityToWall( worldTransform: result.worldTransform)
+                addNoteEntityToWall( at: location, worldTransform: result.worldTransform)
             }
             else {
                 print("no plane detect at \(location)!")
@@ -169,48 +177,42 @@ struct ARViewContainerRepresentable: UIViewRepresentable {
                 print("no plane detect at \(location)!")
             }
             else {
-                addNoteEntityToWall( worldTransform: results.first!.worldTransform)
+                addNoteEntityToWall( at: location, worldTransform: results.first!.worldTransform)
             }
         }
         
-        func addNoteEntityToWall( worldTransform: simd_float4x4 ) {
+        func addNoteEntityToWall( at location: CGPoint, worldTransform: simd_float4x4 ) {
             
-//            let position = SIMD3<Float>(worldTransform.columns.3.x,
+            let note = NoteEntity.addNew( at: location, worldTransform: worldTransform, text: "New Note" )
+
+            parent.arView.scene.addAnchor(note)
+
+            guard let view = note.view else { return }
+            
+            parent.arView.addSubview(view)
+            
+        }
+
+//        func addNoteViewToWall( worldTransform: simd_float4x4 ) {
+//            
+//            let position = SCNVector3(worldTransform.columns.3.x,
 //                                     worldTransform.columns.3.y,
 //                                     worldTransform.columns.3.z)
-            let position = SIMD3<Float>(x: 0.0, y: 0.0, z: -0.5)
-
-            let anchor = AnchorEntity(world: worldTransform )
-            parent.arView.scene.addAnchor(anchor)
-            
-            let note = makeNoteEntity(text: "New Note" )
-            
-            anchor.addChild(note)
-            
-            note.transform.translation = position
-            
-        }
-
-        func addNoteViewToWall( worldTransform: simd_float4x4 ) {
-            
-            let position = SCNVector3(worldTransform.columns.3.x,
-                                     worldTransform.columns.3.y,
-                                     worldTransform.columns.3.z)
-            
-            let anchor = ARAnchor(name: "Note", transform: worldTransform)
-            parent.arView.session.add(anchor: anchor)
-            
-            let noteText = "New Note"
-            let point = CGPoint(x: CGFloat(position.x), y: CGFloat(position.y))
-            
-            if var existingNotes = parent.notes[noteText] {
-                existingNotes.append(point)
-                parent.notes[noteText] = existingNotes
-            } else {
-                parent.notes[noteText] = [point]
-            }
-
-        }
+//            
+//            let anchor = ARAnchor(name: "Note", transform: worldTransform)
+//            parent.arView.session.add(anchor: anchor)
+//            
+//            let noteText = "New Note"
+//            let point = CGPoint(x: CGFloat(position.x), y: CGFloat(position.y))
+//            
+//            if var existingNotes = parent.notes[noteText] {
+//                existingNotes.append(point)
+//                parent.notes[noteText] = existingNotes
+//            } else {
+//                parent.notes[noteText] = [point]
+//            }
+//
+//        }
     }
 }
 
