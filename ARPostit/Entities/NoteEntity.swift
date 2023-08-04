@@ -25,9 +25,27 @@ class NoteEntity: Entity, HasAnchoring {
         super.init()
         self.transform.matrix = worldTransform
         
-        let controller = UIHostingController(rootView: NoteView( text: text ) )
+        #if __USE_COMPOSITE_MODEL
+        let boxModel = ModelEntity(mesh: .generateBox(size: 0.2), materials: [SimpleMaterial(color: .yellow, isMetallic: true)])
+                
+        let textModel = ModelEntity( mesh: .generateText(text,
+                                                         extrusionDepth: 0.01,
+                                                         font: .systemFont(ofSize: 0.2),
+                                                         containerFrame: .zero,
+                                                         alignment: .left,
+                                                         lineBreakMode: .byWordWrapping),
+                                     materials: [SimpleMaterial( color: .white, isMetallic: false)] )
+        // Create a parent entity to hold the box and text entities
         
+        addChild(boxModel)
+        addChild(textModel)
+        
+        #else
+        
+        let controller = UIHostingController(rootView: NoteView( text: text ) )
         view = controller.view
+        
+        #endif
         
         setPositionCenter( frame.origin )
     }
@@ -37,8 +55,9 @@ class NoteEntity: Entity, HasAnchoring {
     
     // Returns the center point of the enity's screen space view
     fileprivate func getCenterPoint(_ point: CGPoint) -> CGPoint {
-        guard let view = view else {
-            fatalError("Called getCenterPoint(_point:) on a screen space component with no view.")
+        guard let view else {
+//            fatalError("Called getCenterPoint(_point:) on a screen space component with no view.")
+            return .zero
         }
         let xCoord = CGFloat(point.x) - (view.frame.width) / 2
         let yCoord = CGFloat(point.y) - (view.frame.height) / 2
@@ -48,10 +67,11 @@ class NoteEntity: Entity, HasAnchoring {
     // Centers the entity's screen space view on the specified screen location.
     fileprivate func setPositionCenter(_ position: CGPoint) {
         
-        let centerPoint = getCenterPoint(position)
-        guard let view = view else {
-            fatalError("Called centerOnHitLocation(_hitLocation:) on a screen space component with no view.")
+        guard let view  else {
+//            fatalError("Called centerOnHitLocation(_hitLocation:) on a screen space component with no view.")
+            return
         }
+        let centerPoint = getCenterPoint(position)
         view.frame.origin = CGPoint(x: centerPoint.x, y: centerPoint.y)
         
         // Updating the lastFrame of the StickyNoteView
