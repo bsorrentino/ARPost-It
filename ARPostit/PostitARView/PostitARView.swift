@@ -13,7 +13,7 @@ import Combine
 class PostitARView : ARView {
     
     
-    internal func addNoteEntityToWall( at location: CGPoint, worldTransform: simd_float4x4 ) {
+    func addNoteEntityToWall( at location: CGPoint, worldTransform: simd_float4x4 ) {
         
         let note = NoteEntity.addNew( at: location, worldTransform: worldTransform, text: "New Note" )
         
