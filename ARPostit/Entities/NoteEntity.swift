@@ -9,10 +9,10 @@ import RealityKit
 import ARKit
 import SwiftUI
 
-
+let __USE_COMPOSITE_MODEL = true
 
 /// An Entity which has an anchoring component and a screen space view component, where the screen space view is a StickyNoteView.
-class NoteEntity: Entity, HasAnchoring {
+public class NoteEntity: Entity {
     
     var view:UIView?
     
@@ -24,30 +24,28 @@ class NoteEntity: Entity, HasAnchoring {
     init(text: String, frame: CGRect, worldTransform: simd_float4x4) {
         super.init()
         self.transform.matrix = worldTransform
-        
-        #if __USE_COMPOSITE_MODEL
-        let boxModel = ModelEntity(mesh: .generateBox(size: 0.2), materials: [SimpleMaterial(color: .yellow, isMetallic: true)])
-                
-        let textModel = ModelEntity( mesh: .generateText(text,
-                                                         extrusionDepth: 0.01,
-                                                         font: .systemFont(ofSize: 0.2),
-                                                         containerFrame: .zero,
-                                                         alignment: .left,
-                                                         lineBreakMode: .byWordWrapping),
-                                     materials: [SimpleMaterial( color: .white, isMetallic: false)] )
-        // Create a parent entity to hold the box and text entities
-        
-        addChild(boxModel)
-        addChild(textModel)
-        
-        #else
-        
-        let controller = UIHostingController(rootView: NoteView( text: text ) )
-        view = controller.view
-        
-        #endif
-        
-        setPositionCenter( frame.origin )
+        if __USE_COMPOSITE_MODEL {
+            
+//            self.anchoring = AnchoringComponent(.plane(.vertical, classification: .wall, minimumBounds: SIMD2<Float>(1.0, 2.0) ))
+            let textModel = ModelEntity( mesh: .generateText(text,
+                                                             extrusionDepth: 0.01,
+                                                             font: .systemFont(ofSize: 0.2),
+                                                             containerFrame: .zero,
+                                                             alignment: .left,
+                                                             lineBreakMode: .byWordWrapping),
+                                         materials: [SimpleMaterial( color: .white, isMetallic: false)] )
+            // Create a parent entity to hold the box and text entities
+            
+            addChild(textModel)
+        }
+        else {
+            
+            let controller = UIHostingController(rootView: NoteView( text: text ) )
+            view = controller.view
+            
+            setPositionCenter( frame.origin )
+            
+        }
     }
     required init() {
         fatalError("init() has not been implemented")

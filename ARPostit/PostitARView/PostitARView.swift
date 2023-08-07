@@ -14,10 +14,13 @@ class PostitARView : ARView {
     
     
     func addNoteEntityToWall( at location: CGPoint, worldTransform: simd_float4x4 ) {
+        let anchor = AnchorEntity(plane: .vertical)
         
         let note = NoteEntity.addNew( at: location, worldTransform: worldTransform, text: "New Note" )
         
-        self.scene.addAnchor(note)
+        anchor.addChild(note)
+        
+        self.scene.addAnchor(anchor)
         
         guard let view = note.view else { return }
         
