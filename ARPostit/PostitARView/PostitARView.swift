@@ -13,41 +13,41 @@ import Combine
 class PostitARView : ARView {
     
     
-    func addNoteEntityToWall( at location: CGPoint, worldTransform: simd_float4x4 ) {
-        let anchor = AnchorEntity(plane: .vertical)
+    func placePostit2(on anchor: ARAnchor, text: String) {
+        let planeGeometry = MeshResource.generatePlane(width: 1, height: 1)
+        var material = SimpleMaterial()
+        material.color = .init(tint: .white,
+                            texture: .init(try! .load(named: "postit")))
+        let model = ModelEntity(mesh: planeGeometry, materials: [material])
+        model.position = [0, 0, 0]
+        model.transform.matrix = anchor.transform
         
-        let note = NoteEntity.addNew( at: location, worldTransform: worldTransform, text: "New Note" )
+        let anchorEntity = AnchorEntity(anchor: anchor)
+        anchorEntity.addChild(model)
         
-        anchor.addChild(note)
-        
-        self.scene.addAnchor(anchor)
-        
-        if let view = note.view {
-            self.addSubview(view)
-        }
-        
+        self.scene.addAnchor(anchorEntity)
     }
     
-    //        func addNoteViewToWall( worldTransform: simd_float4x4 ) {
-    //
-    //            let position = SCNVector3(worldTransform.columns.3.x,
-    //                                     worldTransform.columns.3.y,
-    //                                     worldTransform.columns.3.z)
-    //
-    //            let anchor = ARAnchor(name: "Note", transform: worldTransform)
-    //            parent.arView.session.add(anchor: anchor)
-    //
-    //            let noteText = "New Note"
-    //            let point = CGPoint(x: CGFloat(position.x), y: CGFloat(position.y))
-    //
-    //            if var existingNotes = parent.notes[noteText] {
-    //                existingNotes.append(point)
-    //                parent.notes[noteText] = existingNotes
-    //            } else {
-    //                parent.notes[noteText] = [point]
-    //            }
-    //
-    //        }
+    func placePostit( on anchor: ARAnchor, text: String )  {
+        let entity = ModelEntity( mesh: .generateText(text,
+                                                         extrusionDepth: 0.01,
+                                                         font: .systemFont(ofSize: 0.2),
+                                                         containerFrame: .zero,
+                                                         alignment: .left,
+                                                         lineBreakMode: .byWordWrapping),
+                                     materials: [SimpleMaterial( color: .white, isMetallic: false)] )
 
+        let anchorEntity = AnchorEntity(anchor: anchor)
+        anchorEntity.addChild(entity)
+        self.scene.addAnchor(anchorEntity)
+    }
+    
+    func addNoteEntityToWall( on anchor: ARPlaneAnchor, at location: CGPoint, worldTransform: simd_float4x4 ) {
+        
+        let note = NoteEntity.addNew( on: anchor, worldTransform: worldTransform, text: "New Note" )
+        
+        self.scene.addAnchor(note)
+        
+    }
 
 }
