@@ -22,9 +22,9 @@ class PostitARView : ARView {
         
         self.scene.addAnchor(anchor)
         
-        guard let view = note.view else { return }
-        
-        self.addSubview(view)
+        if let view = note.view {
+            self.addSubview(view)
+        }
         
     }
     

@@ -77,9 +77,9 @@ public class NoteEntity: Entity {
     }
     
     func updateScreenPosition( ) {
-        guard let projectedPoint else { return }
+        guard let projectedPoint, let view  else { return }
         
-        view?.isHidden = !isVisible
+        view.isHidden = !isVisible
 
         setPositionCenter(projectedPoint)
 
@@ -130,6 +130,6 @@ extension NoteEntity {
         
         return note
     }
-
+    
 }
 
