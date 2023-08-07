@@ -53,7 +53,7 @@ struct ARViewContainerRepresentable: UIViewRepresentable {
 //    let arView = ARView()
     
     // [Using Vision and RealityKit Rotates Counterclockwise and Distorts(Stretches?) Video](https://stackoverflow.com/a/72252900/521197)
-    let arView = ARView(frame: .init(x: 1, y: 1, width: 1, height: 1),
+    let arView = PostitARView(frame: .init(x: 1, y: 1, width: 1, height: 1),
                         cameraMode: .ar,
                         automaticallyConfigureSession: false)
 
@@ -68,11 +68,8 @@ struct ARViewContainerRepresentable: UIViewRepresentable {
         
         arView.session.run(configuration)
 
-        let tapGesture = UITapGestureRecognizer(target: context.coordinator,
-                                                action: #selector(context.coordinator.handleTap_and_raycast(_:)))
-//                                                action: #selector(context.coordinator.handleTap_and_hitTest(_:)))
-         
-        arView.addGestureRecognizer(tapGesture)
+        arView.setupGesture()
+                 
         return arView
     }
     
@@ -121,76 +118,6 @@ struct ARViewContainerRepresentable: UIViewRepresentable {
             
         }
 
-        //
-        // FROM PHIND:
-        //
-        @objc func handleTap_and_raycast(_ sender: UITapGestureRecognizer) {
-            let location = sender.location(in: parent.arView)
-            
-            guard let raycastQuery = parent.arView.makeRaycastQuery(from: location,
-                                                     allowing: .estimatedPlane,
-                                                     alignment: .vertical) else {
-                print("no plane detect at \(location)!")
-                return
-            }
-             
-            let result = parent.arView.session.raycast(raycastQuery)
-            
-            if let result = result.first {
-                addNoteEntityToWall( at: location, worldTransform: result.worldTransform)
-            }
-            else {
-                print("no plane detect at \(location)!")
-            }
-
-        }
-
-//        @objc func handleTap_and_hitTest(_ sender: UITapGestureRecognizer) {
-//            
-//            let location = sender.location(in: parent.arView)
-//            
-//            let results = parent.arView.hitTest(location, types: .existingPlane)
-//            
-//            if results.isEmpty {
-//                print("no plane detect at \(location)!")
-//            }
-//            else {
-//                addNoteEntityToWall( at: location, worldTransform: results.first!.worldTransform)
-//            }
-//        }
-        
-        func addNoteEntityToWall( at location: CGPoint, worldTransform: simd_float4x4 ) {
-            
-            let note = NoteEntity.addNew( at: location, worldTransform: worldTransform, text: "New Note" )
-
-            parent.arView.scene.addAnchor(note)
-
-            guard let view = note.view else { return }
-            
-            parent.arView.addSubview(view)
-            
-        }
-
-//        func addNoteViewToWall( worldTransform: simd_float4x4 ) {
-//            
-//            let position = SCNVector3(worldTransform.columns.3.x,
-//                                     worldTransform.columns.3.y,
-//                                     worldTransform.columns.3.z)
-//            
-//            let anchor = ARAnchor(name: "Note", transform: worldTransform)
-//            parent.arView.session.add(anchor: anchor)
-//            
-//            let noteText = "New Note"
-//            let point = CGPoint(x: CGFloat(position.x), y: CGFloat(position.y))
-//            
-//            if var existingNotes = parent.notes[noteText] {
-//                existingNotes.append(point)
-//                parent.notes[noteText] = existingNotes
-//            } else {
-//                parent.notes[noteText] = [point]
-//            }
-//
-//        }
     }
 }
 
