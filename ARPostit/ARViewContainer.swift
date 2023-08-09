@@ -113,7 +113,7 @@ extension ARViewContainerRepresentable.Coordinator : ARSessionDelegate {
                 grids.append(grid)
             }
             if let anchorName = anchor.name, anchorName == "Text" {
-                parent.arView.placePostit2(on: anchor, text: "test")
+                parent.arView.placePostit(on: anchor, text: "test")
             }
         }
         

@@ -13,22 +13,27 @@ import Combine
 class PostitARView : ARView {
     
     
-    func placePostit2(on anchor: ARAnchor, text: String) {
-        let planeGeometry = MeshResource.generatePlane(width: 1, height: 1)
-        var material = SimpleMaterial()
-        material.color = .init(tint: .white,
-                            texture: .init(try! .load(named: "postit")))
-        let model = ModelEntity(mesh: planeGeometry, materials: [material])
-        model.position = [0, 0, 0]
-        model.transform.matrix = anchor.transform
-        
-        let anchorEntity = AnchorEntity(anchor: anchor)
-        anchorEntity.addChild(model)
-        
+    /// Places a new post-it note on a specified ARAnchor with the provided text.
+    ///
+    /// This function creates an AnchorEntity from the provided ARAnchor, adds it to the scene, and then creates a new NoteEntity with the provided text.
+    ///
+    /// - Parameters:
+    ///   - anchor: The ARAnchor on which to place the new post-it note.
+    ///   - text: The text to be displayed on the new post-it note.
+    ///
+    /// - Note:
+    ///   The NoteEntity.addNew(on:text:) function is assumed to create a new NoteEntity and attach it to the specified AnchorEntity.
+
+    func placePostit( on anchor: ARAnchor, text: String  ) {
+        let anchorEntity = AnchorEntity(world: anchor.transform)
         self.scene.addAnchor(anchorEntity)
+
+        let _ = NoteEntity.addNew( on: anchorEntity, text: "New Note" )
+        
     }
+
     
-    func placePostit( on anchor: ARAnchor, text: String )  {
+    fileprivate func placePostit3( on anchor: ARAnchor, text: String )  {
         let entity = ModelEntity( mesh: .generateText(text,
                                                          extrusionDepth: 0.01,
                                                          font: .systemFont(ofSize: 0.2),
@@ -42,12 +47,5 @@ class PostitARView : ARView {
         self.scene.addAnchor(anchorEntity)
     }
     
-    func addNoteEntityToWall( on anchor: ARPlaneAnchor, at location: CGPoint, worldTransform: simd_float4x4 ) {
-        
-        let note = NoteEntity.addNew( on: anchor, worldTransform: worldTransform, text: "New Note" )
-        
-        self.scene.addAnchor(note)
-        
-    }
 
 }

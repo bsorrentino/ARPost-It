@@ -21,26 +21,58 @@
               "material" : "concrete",
               "overrides" : {
                 "children" : {
-                  "4A213441-135C-450E-8EF8-1A4EAB267C1D" : {
+                  "4A213441-135C-450E-8EF8-1A4EAB267C1D" : null,
+                  "7F5F1ADC-E5E4-4EF5-A5B5-FC43B071FFA5" : null,
+                  "193D6E91-76D1-4C83-849E-C1B296679897" : {
                     "overrides" : {
                       "arguments" : [
                         [
-                          "material",
+                          "item",
                           {
                             "typeName" : "String",
-                            "value" : "steel"
+                            "value" : "Folder"
                           }
                         ],
                         [
-                          "type",
+                          "style",
                           {
                             "typeName" : "String",
-                            "value" : "box"
+                            "value" : "Realistic"
                           }
                         ]
                       ],
+                      "children" : {
+                        "iconicItem" : {
+                          "overrides" : {
+                            "factory" : null,
+                            "runtimeAttributes" : [
+                              [
+                                "RuntimeIdentifier",
+                                {
+                                  "typeName" : "UUID",
+                                  "value" : "CB1CA629-9C8D-4ABE-B686-F44BBD042BCD"
+                                }
+                              ]
+                            ]
+                          }
+                        },
+                        "item" : {
+                          "overrides" : {
+                            "factory" : null,
+                            "runtimeAttributes" : [
+                              [
+                                "RuntimeIdentifier",
+                                {
+                                  "typeName" : "UUID",
+                                  "value" : "3BEE16E3-0DFB-4863-BCB2-A42DFC2111E9"
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      },
                       "factory" : {
-                        "identifier" : "com.apple.rc.af.CoreAssetFactories.PrimitiveShapeAssetFactory",
+                        "identifier" : "com.apple.rc.af.Folder.9ab5a89c-f1bf-4edd-9379-051510aef385",
                         "version" : "1.0"
                       },
                       "runtimeAttributes" : [
@@ -48,40 +80,32 @@
                           "RuntimeIdentifier",
                           {
                             "typeName" : "UUID",
-                            "value" : "3788A5B5-0388-488A-8304-7B90FEBA6FAC"
-                          }
-                        ],
-                        [
-                          "entityName",
-                          {
-                            "typeName" : "String",
-                            "value" : "Steel Box"
+                            "value" : "4ADF8EEA-0DA7-4378-AE8C-1C144EB22884"
                           }
                         ]
                       ]
                     },
                     "transform" : {
                       "matrix" : [
-                        1,
+                        0.57966482639312744,
                         0,
                         0,
                         0,
                         0,
-                        1,
+                        1.0365214819785251e-07,
+                        -0.57966482639312744,
+                        0,
+                        0,
+                        0.57966482639312744,
+                        1.0365214819785251e-07,
                         0,
                         0,
                         0,
-                        0,
-                        1,
-                        0,
-                        0,
-                        0.05000000074505806,
                         0,
                         1
                       ]
                     }
                   },
-                  "7F5F1ADC-E5E4-4EF5-A5B5-FC43B071FFA5" : null,
                   "632E476F-1E55-4E30-9723-1C51DD2E8B89" : null,
                   "B91C7CA3-4AB1-4253-9A84-07383168A8A8" : null
                 },
@@ -105,12 +129,12 @@
                   0,
                   0,
                   0,
-                  0.8075486421585083,
-                  -0.58980107307434082,
+                  0.80754858255386353,
+                  -0.58980095386505127,
                   0,
                   0,
-                  0.58980107307434082,
-                  0.8075486421585083,
+                  0.58980095386505127,
+                  0.80754858255386353,
                   0,
                   0,
                   1.135667085647583,

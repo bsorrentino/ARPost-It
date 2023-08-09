@@ -9,51 +9,37 @@ import RealityKit
 import ARKit
 import SwiftUI
 
-let __USE_COMPOSITE_MODEL = true
 
 /// An Entity which has an anchoring component and a screen space view component, where the screen space view is a StickyNoteView.
-public class NoteEntity: Entity, HasModel, HasAnchoring{
+public class NoteEntity: Entity, HasModel, HasAnchoring {
     
-    var planeAnchor: ARPlaneAnchor
-    var planeGeometry: MeshResource!
+    var anchoring: AnchorEntity
 
     /// Initializes a new StickyNoteEntity and assigns the specified transform.
     /// Also automatically initializes an associated StickyNoteView with the specified frame.
-    init(anchor: ARPlaneAnchor, text: String, worldTransform: simd_float4x4) {
-        self.planeAnchor = anchor
+    init(anchor: AnchorEntity, text: String) {
+        self.anchoring = anchor
         super.init()
-        self.transform.matrix = worldTransform
         didSetup( text: text )
     }
     
     fileprivate func didSetup( text: String ) {
-        
-//        let model = ModelEntity( mesh: .generateText(text,
-//                                                         extrusionDepth: 0.01,
-//                                                         font: .systemFont(ofSize: 0.2),
-//                                                         containerFrame: .zero,
-//                                                         alignment: .left,
-//                                                         lineBreakMode: .byWordWrapping),
-//                                     materials: [SimpleMaterial( color: .white, isMetallic: false)] )
-
-        self.planeGeometry = .generatePlane(width: planeAnchor.extent.x,
-                                            height: planeAnchor.extent.z)
+        let planeGeometry = MeshResource.generatePlane(width: 0.20 /* meters */, height: 0.10 /* meters */)
         var material = SimpleMaterial()
         material.color = .init(tint: .white,
                             texture: .init(try! .load(named: "postit")))
         let model = ModelEntity(mesh: planeGeometry, materials: [material])
-        model.position = [planeAnchor.center.x, 0, planeAnchor.center.z]
-        self.addChild(model)
+//        model.position = [0, 0, 0]
+//        model.transform.matrix = anchor.transform
+//        model.transform.scale = SIMD3<Float>(1, 1, 1)
+        model.transform.rotation = simd_quatf(angle: .pi / 2, axis: [-1, 0, 0])
+
+        self.anchoring.addChild(model)
 
     }
         
-        fileprivate func didUpdate(anchor: ARPlaneAnchor) {
-            self.planeGeometry = .generatePlane(width: anchor.extent.x,
-                                                height: anchor.extent.z)
-            let pose: SIMD3<Float> = [anchor.center.x, 0, anchor.center.z]
-            let model = self.children[0] as! ModelEntity
-            model.position = pose
-        }
+    fileprivate func didUpdate(anchor: ARPlaneAnchor) {
+    }
 
     
     required init() {
@@ -62,14 +48,6 @@ public class NoteEntity: Entity, HasModel, HasAnchoring{
     
 }
 
-
-extension SIMD4 {
-    
-    var xyz: SIMD3<Scalar> {
-        return self[SIMD3(0, 1, 2)]
-    }
-    
-}
 
 extension NoteEntity {
     
@@ -83,9 +61,9 @@ extension NoteEntity {
         }
     }
     
-    static func addNew( on anchor: ARPlaneAnchor, worldTransform: simd_float4x4, text: String ) -> NoteEntity {
+    static func addNew( on anchor: AnchorEntity, text: String ) -> NoteEntity {
         
-        let note = NoteEntity(anchor: anchor, text: text, worldTransform: worldTransform)
+        let note = NoteEntity(anchor: anchor, text: text)
         
         notes.append( note )
         
