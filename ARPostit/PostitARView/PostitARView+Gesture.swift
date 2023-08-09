@@ -20,13 +20,22 @@ extension PostitARView {
 
     }
     
+    func getPlaneFrom( location: CGPoint ) -> ARPlaneAnchor? {
+        let hitTestResults = self.hitTest(location, types: .existingPlaneUsingExtent)
+            
+        guard let hitTestResult = hitTestResults.first, let planeAnchor = hitTestResult.anchor as? ARPlaneAnchor else { return nil }
+        
+        
+        return planeAnchor
+    }
+    
     
     //
     // FROM PHIND:
     //
     @objc func handleTap_and_raycast(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: self)
-        
+            
         guard let raycastQuery = self.makeRaycastQuery(from: location,
                                                        allowing: .estimatedPlane,
                                                        alignment: .vertical) else {
@@ -37,26 +46,15 @@ extension PostitARView {
         let result = self.session.raycast(raycastQuery)
         
         if let result = result.first {
-            self.addNoteEntityToWall( at: location, worldTransform: result.worldTransform)
+            
+            let anchor = ARAnchor(name: "Text", transform: result.worldTransform)
+            self.session.add(anchor: anchor)
+
         }
         else {
             print("no plane detect at \(location)!")
         }
         
     }
-    
-    //        @objc func handleTap_and_hitTest(_ sender: UITapGestureRecognizer) {
-    //
-    //            let location = sender.location(in: parent.arView)
-    //
-    //            let results = parent.arView.hitTest(location, types: .existingPlane)
-    //
-    //            if results.isEmpty {
-    //                print("no plane detect at \(location)!")
-    //            }
-    //            else {
-    //                addNoteEntityToWall( at: location, worldTransform: results.first!.worldTransform)
-    //            }
-    //        }
     
 }

@@ -79,29 +79,6 @@ struct ARViewContainerRepresentable: UIViewRepresentable {
         Coordinator(self)
     }
     
-      // FROM BING: prompt[which are events related to detected planes]
-//    func planesDetectionSetup() {
-//        
-//        let session = ARKitSession()
-//        let planeData = PlaneDetectionProvider(alignments: [.horizontal, .vertical])
-//
-//        Task {
-//            try await session.run([planeData])
-//            
-//            for await update in planeData.anchorUpdates {
-//                // Skip planes that are windows.
-//                if update.anchor.classification == .window { continue }
-//                
-//                switch update.event {
-//                case .added, .updated:
-//                    updatePlane(update.anchor)
-//                case .removed:
-//                    removePlane(update.anchor)
-//                }
-//            }
-//        }
-//
-//    }
     class Coordinator: NSObject {
         var parent: ARViewContainerRepresentable
         var grids = [GridEntity]()
@@ -113,7 +90,7 @@ struct ARViewContainerRepresentable: UIViewRepresentable {
             self.parent.arView.session.delegate = self
             
             subscription = self.parent.arView.scene.subscribe(to: SceneEvents.Update.self) { _ in   
-                NoteEntity.updateScene(arView: parent.arView)
+//                NoteEntity.updateScene(arView: parent.arView)
             }
             
         }
@@ -135,6 +112,9 @@ extension ARViewContainerRepresentable.Coordinator : ARSessionDelegate {
                 parent.arView.scene.addAnchor(grid)
                 grids.append(grid)
             }
+            if let anchorName = anchor.name, anchorName == "Text" {
+                parent.arView.placePostit(on: anchor, text: "test")
+            }
         }
         
     }
@@ -147,6 +127,7 @@ extension ARViewContainerRepresentable.Coordinator : ARSessionDelegate {
             updatedGrid.didUpdate(anchor: planeAnchor)
         }
 
+        
     }
 
 }

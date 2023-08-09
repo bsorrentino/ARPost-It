@@ -15,6 +15,7 @@
 		A01A700B2A4F3A04009CC9DE /* ARPostitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01A700A2A4F3A04009CC9DE /* ARPostitTests.swift */; };
 		A01A70152A4F3A04009CC9DE /* ARPostitUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01A70142A4F3A04009CC9DE /* ARPostitUITests.swift */; };
 		A01A70172A4F3A04009CC9DE /* ARPostitUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01A70162A4F3A04009CC9DE /* ARPostitUITestsLaunchTests.swift */; };
+		A01FC5732A83F8650016FF6F /* SIMD4+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01FC5722A83F8650016FF6F /* SIMD4+Extensions.swift */; };
 		A09E7E5D2A725F62000C01ED /* GridEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09E7E5C2A725F62000C01ED /* GridEntity.swift */; };
 		A09E7E5F2A728271000C01ED /* NoteEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09E7E5E2A728271000C01ED /* NoteEntity.swift */; };
 		A0A6B17F2A7BFE9B00E5872E /* PostitARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A6B17E2A7BFE9B00E5872E /* PostitARView.swift */; };
@@ -53,6 +54,7 @@
 		A01A70102A4F3A04009CC9DE /* ARPostitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ARPostitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A01A70142A4F3A04009CC9DE /* ARPostitUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARPostitUITests.swift; sourceTree = "<group>"; };
 		A01A70162A4F3A04009CC9DE /* ARPostitUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARPostitUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		A01FC5722A83F8650016FF6F /* SIMD4+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SIMD4+Extensions.swift"; sourceTree = "<group>"; };
 		A09E7E5C2A725F62000C01ED /* GridEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridEntity.swift; sourceTree = "<group>"; };
 		A09E7E5E2A728271000C01ED /* NoteEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEntity.swift; sourceTree = "<group>"; };
 		A0A6B17E2A7BFE9B00E5872E /* PostitARView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostitARView.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				A0A6B17D2A7BFE6700E5872E /* PostitARView */,
 				A09E7E612A72C265000C01ED /* Views */,
 				A09E7E602A72827C000C01ED /* Entities */,
+				A01FC5722A83F8650016FF6F /* SIMD4+Extensions.swift */,
 				A01A6FF72A4F3A03009CC9DE /* AppDelegate.swift */,
 				A01A6FF92A4F3A03009CC9DE /* ContentView.swift */,
 				A0BB59712A70111000D04415 /* ARViewContainer.swift */,
@@ -314,6 +317,7 @@
 				A09E7E5D2A725F62000C01ED /* GridEntity.swift in Sources */,
 				A09E7E5F2A728271000C01ED /* NoteEntity.swift in Sources */,
 				A0BB59742A70116E00D04415 /* NoteStorage.swift in Sources */,
+				A01FC5732A83F8650016FF6F /* SIMD4+Extensions.swift in Sources */,
 				A0A6B17F2A7BFE9B00E5872E /* PostitARView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
